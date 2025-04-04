@@ -38,8 +38,12 @@ def parse_rfc_results(html_content):
         pub_date = cells[4].text.strip()    # "Date" column
         status = cells[6].text.strip()      # "Status" column
 
-        # Filter for relevant RFCs
-        if "TLS" in title.upper() and "PROPOSED STANDARD" in status.upper() and "CHANGED FROM PROPOSED STANDARD" not in status.upper():
+        # Filter for relevant RFCs with TLS in title and either Proposed Standard or Internet Standard status
+        if ("TLS" in title.upper() and
+           (
+             ("PROPOSED STANDARD" in status.upper() and "CHANGED FROM PROPOSED STANDARD" not in status.upper()) or
+             ("INTERNET STANDARD" in status.upper())
+           )):
             rfc_list.append({
                 "RFC Number": rfc_number,
                 "Title": title,
